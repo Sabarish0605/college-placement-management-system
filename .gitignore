@@ -1,0 +1,18 @@
+# IntelliJ IDEA
+.idea/
+
+# Maven
+target/
+
+# Java compiled files
+*.class
+
+# Maven wrapper generated files
+!.mvn/wrapper/maven-wrapper.jar
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# IDE files
+*.iml
