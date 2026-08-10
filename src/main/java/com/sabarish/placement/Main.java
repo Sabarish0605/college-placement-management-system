@@ -1,7 +1,9 @@
 package com.sabarish.placement;
 
 import com.sabarish.placement.model.Student;
-
+import com.sabarish.placement.model.Company;
+import com.sabarish.placement.model.Job;
+import com.sabarish.placement.model.Application;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -36,5 +38,51 @@ public class Main {
         std1.setSkills(updatedSkills);
 
         System.out.println(std1.getSkills());
+
+//        company object creation and declaration
+
+        Company company = new Company(
+                "COMP001",
+                "Zoho",
+                "hr@zoho.com",
+                "Software",
+                "Chennai"
+        );
+
+        System.out.println(company.getName());
+        System.out.println(company.getIndustry());
+
+
+//        job object creation and declaration
+
+        Job job = new Job(
+                "JOB001",
+                "Software Developer",
+                "Backend development role",
+                7.0,
+                0,
+
+//                here we use the company oject directly which created with Company class
+//                it has all the properties of company inside so we directly add all the company details into job
+                company
+        );
+
+        System.out.println(job.getRole());
+        System.out.println(job.getCompany().getName());
+        System.out.println(job.getMinimumCgpa());
+
+//        Now application object is created by give job object and student object as a direct input
+
+        Application application = new Application(
+                "APP001",
+                std1,
+                job,
+                "Applied"
+        );
+
+        System.out.println(application.getApplicationId());
+        System.out.println(application.getStudent().getName());
+        System.out.println(application.getJob().getRole());
+        System.out.println(application.getStatus());
     }
 }
