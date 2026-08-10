@@ -63,4 +63,20 @@ public class Student {
     public void setContactNumber(String contactNumber){ this.contactNumber = contactNumber;}
     public void setBacklogs(int backlogs){ this.backlogs = backlogs;}
     public void setSkills(List<String> skills){ this.skills = skills;}
+
+    @Override
+    public String toString() {
+        return "Student{" +
+                "registerNumber='" + registerNumber + '\'' +
+                ", name='" + name + '\'' +
+                ", email='" + email + '\'' +
+                ", contactNumber='" + contactNumber + '\'' +
+                ", gender='" + gender + '\'' +
+                ", department='" + department + '\'' +
+                ", cgpa=" + cgpa +
+                ", backlogs=" + backlogs +
+                ", skills=" + skills +
+                ", graduationYear=" + graduationYear +
+                '}';
+    }
 }

@@ -4,6 +4,7 @@ import com.sabarish.placement.model.Student;
 import com.sabarish.placement.model.Company;
 import com.sabarish.placement.model.Job;
 import com.sabarish.placement.model.Application;
+import com.sabarish.placement.service.PlacementService;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -15,6 +16,19 @@ public class Main {
         skills.add("Communication");
 
         Student std1 = new Student("732123104091", "Sabarish M", "732123104091@nandhatech.org", "9965569808", "MALE", "CSE", 7.72, 0, skills, 2027);
+//        Student std2 = new Student("732123104091", "Sabari", "732123104091@nandhatech.org", "9965569808", "MALE", "CSE", 7.72, 0, skills, 2027);
+        Student std2 = new Student(
+                "732123104092",
+                "Arun Kumar",
+                "arun@nandhatech.org",
+                "9876543210",
+                "MALE",
+                "ECE",
+                8.1,
+                0,
+                new ArrayList<>(List.of("Java", "Python")),
+                2027
+        );
         System.out.println(std1.getGraduationYear());
         System.out.println(std1.getName());
         System.out.println(std1.getBacklogs());
@@ -84,5 +98,25 @@ public class Main {
         System.out.println(application.getStudent().getName());
         System.out.println(application.getJob().getRole());
         System.out.println(application.getStatus());
+
+        PlacementService service = new PlacementService();
+        service.addStudent(std1);
+        service.addStudent(std2);
+        System.out.println(service.getAllStudents());
+
+        Student foundStudent = service.findStudentByRegisterNumber("732123104092");
+        System.out.println(foundStudent);
+
+//    Adding all the objects into the services
+        service.addCompany(company);
+        service.addJob(job);
+        service.addApplication(application);
+
+
+//        printing all the objects using the service officer
+
+        System.out.println(service.getAllCompanies());
+        System.out.println(service.getAllJobs());
+        System.out.println(service.getAllApplications());
     }
 }

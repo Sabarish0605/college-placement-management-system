@@ -35,4 +35,14 @@ public class Application {
     public void setStatus(String status) {
         this.status = status;
     }
+
+    @Override
+    public String toString() {
+        return "Application{" +
+                "applicationId='" + applicationId + '\'' +
+                ", student=" + student +
+                ", job=" + job +
+                ", status='" + status + '\'' +
+                '}';
+    }
 }

@@ -63,4 +63,17 @@ public class Job {
     public void setCompany(Company company) {
         this.company = company;
     }
+
+
+    @Override
+    public String toString() {
+        return "Job{" +
+                "jobId='" + jobId + '\'' +
+                ", role='" + role + '\'' +
+                ", description='" + description + '\'' +
+                ", minimumCgpa=" + minimumCgpa +
+                ", maximumBacklogs=" + maximumBacklogs +
+                ", company=" + company +
+                '}';
+    }
 }
