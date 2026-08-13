@@ -57,6 +57,42 @@ public class PlacementService {
         return applications;
     }
 
+    public boolean isEligible(Student student,Job job){
+        if(student.getCgpa() < job.getMinimumCgpa() || student.getBacklogs() > job.getMaximumBacklogs()){
+            return false;
+        }else{
+            return true;
+        }
+    }
+
+    public boolean hasAllreadyApplied(Student student,Job job){
+        for(Application application : applications){
+            if(application.getJob().getJobId().equals(job.getJobId()) && application.getStudent().getRegisterNumber().equals(student.getRegisterNumber())){
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public void applyForJob(Student student,Job job){
+        if(!hasAllreadyApplied(student, job)&&isEligible(student,job)){
+            int n = applications.size();
+            String uniqueId = "APP"+String.format("%03d",n+1);
+            Application application = new Application(
+                    uniqueId,
+                    student,
+                    job,
+                    "Applied"
+            );
+            applications.add(application);
+
+            System.out.println("Successfully applied");
+        }else{
+            System.out.println("Candidate is not eligible");
+        }
+    }
+
+
 
 
 }

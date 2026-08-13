@@ -118,5 +118,9 @@ public class Main {
         System.out.println(service.getAllCompanies());
         System.out.println(service.getAllJobs());
         System.out.println(service.getAllApplications());
+        System.out.println(service.isEligible(std1,job));
+        service.applyForJob(std1,job);
+        service.applyForJob(std2,job);
+        System.out.println(service.getAllApplications());
     }
 }
