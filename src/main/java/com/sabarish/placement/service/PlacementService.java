@@ -1,4 +1,6 @@
 package com.sabarish.placement.service;
+import com.sabarish.placement.exception.AllreadyAppliedException;
+import com.sabarish.placement.exception.NotEligibleException;
 import com.sabarish.placement.model.Application;
 import com.sabarish.placement.model.Company;
 import com.sabarish.placement.model.Job;
@@ -65,7 +67,7 @@ public class PlacementService {
         }
     }
 
-    public boolean hasAllreadyApplied(Student student,Job job){
+    public boolean hasAlreadyApplied(Student student,Job job){
         for(Application application : applications){
             if(application.getJob().getJobId().equals(job.getJobId()) && application.getStudent().getRegisterNumber().equals(student.getRegisterNumber())){
                 return true;
@@ -74,22 +76,33 @@ public class PlacementService {
         return false;
     }
 
-    public void applyForJob(Student student,Job job){
-        if(!hasAllreadyApplied(student, job)&&isEligible(student,job)){
-            int n = applications.size();
-            String uniqueId = "APP"+String.format("%03d",n+1);
-            Application application = new Application(
-                    uniqueId,
-                    student,
-                    job,
-                    "Applied"
-            );
-            applications.add(application);
+    public void applyForJob(Student student, Job job) throws AllreadyAppliedException, NotEligibleException {
 
-            System.out.println("Successfully applied");
-        }else{
-            System.out.println("Candidate is not eligible");
+        if (hasAlreadyApplied(student, job)) {
+            throw new AllreadyAppliedException(
+                    "This candidate already applied to this job"
+            );
         }
+
+        if (!isEligible(student, job)) {
+            throw new NotEligibleException(
+                    "This candidate is not eligible for this job"
+            );
+        }
+
+        int n = applications.size();
+        String uniqueId = "APP" + String.format("%03d", n + 1);
+
+        Application application = new Application(
+                uniqueId,
+                student,
+                job,
+                "Applied"
+        );
+
+        applications.add(application);
+
+        System.out.println("Successfully applied");
     }
 
 

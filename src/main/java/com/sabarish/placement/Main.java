@@ -1,5 +1,6 @@
 package com.sabarish.placement;
-
+import com.sabarish.placement.exception.NotEligibleException;
+import com.sabarish.placement.exception.AllreadyAppliedException;
 import com.sabarish.placement.model.Student;
 import com.sabarish.placement.model.Company;
 import com.sabarish.placement.model.Job;
@@ -119,8 +120,20 @@ public class Main {
         System.out.println(service.getAllJobs());
         System.out.println(service.getAllApplications());
         System.out.println(service.isEligible(std1,job));
-        service.applyForJob(std1,job);
-        service.applyForJob(std2,job);
+        try {
+            service.applyForJob(std1, job);
+        } catch (AllreadyAppliedException e) {
+            System.out.println(e.getMessage());
+        } catch (NotEligibleException e) {
+            System.out.println(e.getMessage());
+        }
+        try {
+            service.applyForJob(std2, job);
+        } catch (AllreadyAppliedException e) {
+            System.out.println(e.getMessage());
+        } catch (NotEligibleException e) {
+            System.out.println(e.getMessage());
+        }
         System.out.println(service.getAllApplications());
     }
 }
