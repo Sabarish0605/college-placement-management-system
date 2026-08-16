@@ -17,7 +17,7 @@ public class Main {
         skills.add("Communication");
 
         Student std1 = new Student("732123104091", "Sabarish M", "732123104091@nandhatech.org", "9965569808", "MALE", "CSE", 7.72, 0, skills, 2027);
-//        Student std2 = new Student("732123104091", "Sabari", "732123104091@nandhatech.org", "9965569808", "MALE", "CSE", 7.72, 0, skills, 2027);
+
         Student std2 = new Student(
                 "732123104092",
                 "Arun Kumar",
@@ -135,8 +135,7 @@ public class Main {
             System.out.println(e.getMessage());
         }
         System.out.println(service.getAllApplications());
-//        System.out.println(service.getEligibleJobs(std1));
-//        System.out.println(service.getEligibleJobs(std2));
+
 
         Job job2 = new Job(
                 "JOB002",
