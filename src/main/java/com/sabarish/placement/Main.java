@@ -135,5 +135,42 @@ public class Main {
             System.out.println(e.getMessage());
         }
         System.out.println(service.getAllApplications());
+//        System.out.println(service.getEligibleJobs(std1));
+//        System.out.println(service.getEligibleJobs(std2));
+
+        Job job2 = new Job(
+                "JOB002",
+                "Data Scientist",
+                "Data science role",
+                9.0,
+                0,
+                company
+        );
+
+        Job job3 = new Job(
+                "JOB003",
+                "Java Developer",
+                "Java backend role",
+                8.0,
+                1,
+                company
+        );
+
+        service.addJob(job2);
+        service.addJob(job3);
+
+        System.out.println("Sabarish eligible jobs:");
+        System.out.println(service.getEligibleJobs(std1));
+
+        System.out.println("Arun eligible jobs:");
+        System.out.println(service.getEligibleJobs(std2));
+
+
+        System.out.println("Sabarish applications:");
+        System.out.println(service.getApplicationsByStudent(std1));
+
+        System.out.println("Arun applications:");
+        System.out.println(service.getApplicationsByStudent(std2));
+
     }
 }

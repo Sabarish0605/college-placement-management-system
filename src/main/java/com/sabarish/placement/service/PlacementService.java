@@ -106,6 +106,26 @@ public class PlacementService {
     }
 
 
+    public List<Job> getEligibleJobs(Student student) {
+        List<Job> eligibleJobs = new ArrayList<>();
+        for (Job job : jobs) {
+            if(isEligible(student,job)){
+                eligibleJobs.add(job);
+            }
+        }
+        return eligibleJobs;
+    }
+
+    public List<Application> getApplicationsByStudent(Student student) {
+        List<Application> appliedApplications = new ArrayList<>();
+        for(Application application : applications){
+            if(application.getStudent().getRegisterNumber().equals(student.getRegisterNumber())){
+                appliedApplications.add(application);
+            }
+        }
+        return appliedApplications;
+    }
+
 
 
 }
