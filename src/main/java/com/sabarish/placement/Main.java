@@ -1,22 +1,39 @@
 package com.sabarish.placement;
-import com.sabarish.placement.exception.NotEligibleException;
+
 import com.sabarish.placement.exception.AllreadyAppliedException;
-import com.sabarish.placement.model.Student;
+import com.sabarish.placement.exception.NotEligibleException;
+import com.sabarish.placement.model.Application;
 import com.sabarish.placement.model.Company;
 import com.sabarish.placement.model.Job;
-import com.sabarish.placement.model.Application;
+import com.sabarish.placement.model.Student;
 import com.sabarish.placement.service.PlacementService;
+
 import java.util.ArrayList;
 import java.util.List;
 
 public class Main {
+
     public static void main(String[] args) {
+
+        // ==================== STUDENTS ====================
+
         List<String> skills = new ArrayList<>();
-        skills.add("java");
+        skills.add("Java");
         skills.add("DSA");
         skills.add("Communication");
 
-        Student std1 = new Student("732123104091", "Sabarish M", "732123104091@nandhatech.org", "9965569808", "MALE", "CSE", 7.72, 0, skills, 2027);
+        Student std1 = new Student(
+                "732123104091",
+                "Sabarish M",
+                "732123104091@nandhatech.org",
+                "9965569808",
+                "MALE",
+                "CSE",
+                7.72,
+                0,
+                skills,
+                2027
+        );
 
         Student std2 = new Student(
                 "732123104092",
@@ -30,31 +47,9 @@ public class Main {
                 new ArrayList<>(List.of("Java", "Python")),
                 2027
         );
-        System.out.println(std1.getGraduationYear());
-        System.out.println(std1.getName());
-        System.out.println(std1.getBacklogs());
-        System.out.println(std1.getCgpa());
-        System.out.println(std1.getContactNumber());
-        System.out.println(std1.getDepartment());
-        System.out.println(std1.getSkills());
-        System.out.println(std1.getRegisterNumber());
-        System.out.println(std1.getEmail());
-        System.out.println(std1.getGender());
-        std1.setCgpa(9.99);
-        System.out.println(std1.getCgpa());
-        // Skills updation
-        List<String> updatedSkills = new ArrayList<>();
 
-        updatedSkills.add("Java");
-        updatedSkills.add("DSA");
-        updatedSkills.add("Spring Boot");
-        updatedSkills.add("testskill");
 
-        std1.setSkills(updatedSkills);
-
-        System.out.println(std1.getSkills());
-
-//        company object creation and declaration
+        // ==================== COMPANY ====================
 
         Company company = new Company(
                 "COMP001",
@@ -64,11 +59,8 @@ public class Main {
                 "Chennai"
         );
 
-        System.out.println(company.getName());
-        System.out.println(company.getIndustry());
 
-
-//        job object creation and declaration
+        // ==================== JOBS ====================
 
         Job job = new Job(
                 "JOB001",
@@ -76,66 +68,8 @@ public class Main {
                 "Backend development role",
                 7.0,
                 0,
-
-//                here we use the company oject directly which created with Company class
-//                it has all the properties of company inside so we directly add all the company details into job
                 company
         );
-
-        System.out.println(job.getRole());
-        System.out.println(job.getCompany().getName());
-        System.out.println(job.getMinimumCgpa());
-
-//        Now application object is created by give job object and student object as a direct input
-
-        Application application = new Application(
-                "APP001",
-                std1,
-                job,
-                "Applied"
-        );
-
-        System.out.println(application.getApplicationId());
-        System.out.println(application.getStudent().getName());
-        System.out.println(application.getJob().getRole());
-        System.out.println(application.getStatus());
-
-        PlacementService service = new PlacementService();
-        service.addStudent(std1);
-        service.addStudent(std2);
-        System.out.println(service.getAllStudents());
-
-        Student foundStudent = service.findStudentByRegisterNumber("732123104092");
-        System.out.println(foundStudent);
-
-//    Adding all the objects into the services
-        service.addCompany(company);
-        service.addJob(job);
-        service.addApplication(application);
-
-
-//        printing all the objects using the service officer
-
-        System.out.println(service.getAllCompanies());
-        System.out.println(service.getAllJobs());
-        System.out.println(service.getAllApplications());
-        System.out.println(service.isEligible(std1,job));
-        try {
-            service.applyForJob(std1, job);
-        } catch (AllreadyAppliedException e) {
-            System.out.println(e.getMessage());
-        } catch (NotEligibleException e) {
-            System.out.println(e.getMessage());
-        }
-        try {
-            service.applyForJob(std2, job);
-        } catch (AllreadyAppliedException e) {
-            System.out.println(e.getMessage());
-        } catch (NotEligibleException e) {
-            System.out.println(e.getMessage());
-        }
-        System.out.println(service.getAllApplications());
-
 
         Job job2 = new Job(
                 "JOB002",
@@ -155,21 +89,85 @@ public class Main {
                 company
         );
 
+
+        // ==================== APPLICATION ====================
+
+        Application application = new Application(
+                "APP001",
+                std1,
+                job,
+                "Applied"
+        );
+
+
+        // ==================== SERVICE ====================
+
+        PlacementService service = new PlacementService();
+
+
+        // ==================== ADD DATA TO SERVICE ====================
+
+        service.addStudent(std1);
+        service.addStudent(std2);
+
+        service.addCompany(company);
+
+        service.addJob(job);
         service.addJob(job2);
         service.addJob(job3);
 
-        System.out.println("Sabarish eligible jobs:");
+        service.addApplication(application);
+
+
+        // ==================== FIND STUDENT ====================
+
+        Student foundStudent =
+                service.findStudentByRegisterNumber("732123104092");
+
+        System.out.println("Found Student:");
+        System.out.println(foundStudent);
+
+
+        // ==================== APPLY FOR JOB ====================
+
+        try {
+            service.applyForJob(std1, job);
+        } catch (AllreadyAppliedException e) {
+            System.out.println(e.getMessage());
+        } catch (NotEligibleException e) {
+            System.out.println(e.getMessage());
+        }
+
+        try {
+            service.applyForJob(std2, job);
+        } catch (AllreadyAppliedException e) {
+            System.out.println(e.getMessage());
+        } catch (NotEligibleException e) {
+            System.out.println(e.getMessage());
+        }
+
+
+        // ==================== VIEW APPLICATIONS ====================
+
+        System.out.println("All Applications:");
+        System.out.println(service.getAllApplications());
+
+
+        // ==================== ELIGIBLE JOBS ====================
+
+        System.out.println("Sabarish Eligible Jobs:");
         System.out.println(service.getEligibleJobs(std1));
 
-        System.out.println("Arun eligible jobs:");
+        System.out.println("Arun Eligible Jobs:");
         System.out.println(service.getEligibleJobs(std2));
 
 
-        System.out.println("Sabarish applications:");
+        // ==================== STUDENT APPLICATIONS ====================
+
+        System.out.println("Sabarish Applications:");
         System.out.println(service.getApplicationsByStudent(std1));
 
-        System.out.println("Arun applications:");
+        System.out.println("Arun Applications:");
         System.out.println(service.getApplicationsByStudent(std2));
-
     }
 }
