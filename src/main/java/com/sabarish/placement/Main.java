@@ -1,5 +1,6 @@
 package com.sabarish.placement;
-
+import com.sabarish.placement.dao.StudentDAO;
+import com.sabarish.placement.dao.StudentDAOImpl;
 import com.sabarish.placement.exception.AllreadyAppliedException;
 import com.sabarish.placement.exception.NotEligibleException;
 import com.sabarish.placement.model.Application;
@@ -102,13 +103,14 @@ public class Main {
 
         // ==================== SERVICE ====================
 
-        PlacementService service = new PlacementService();
+        StudentDAO studentDAO = new StudentDAOImpl();
+        PlacementService service = new PlacementService(studentDAO);
 
 
         // ==================== ADD DATA TO SERVICE ====================
 
-        service.addStudent(std1);
-        service.addStudent(std2);
+//        service.addStudent(std1);
+//        service.addStudent(std2);
 
         service.addCompany(company);
 
@@ -121,11 +123,13 @@ public class Main {
 
         // ==================== FIND STUDENT ====================
 
-        Student foundStudent =
-                service.findStudentByRegisterNumber("732123104092");
+        Student foundStudent = service.findStudentByRegisterNumber("732123104092");
 
         System.out.println("Found Student:");
         System.out.println(foundStudent);
+
+        System.out.println("All Students:");
+        System.out.println(service.getAllStudents());
 
 
         // ==================== APPLY FOR JOB ====================

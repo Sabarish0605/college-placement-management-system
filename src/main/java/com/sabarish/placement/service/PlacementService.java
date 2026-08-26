@@ -6,16 +6,29 @@ import com.sabarish.placement.model.Company;
 import com.sabarish.placement.model.Job;
 import java.util.ArrayList;
 import com.sabarish.placement.model.Student;
+import com.sabarish.placement.dao.StudentDAO;
 import java.util.List;
 public class PlacementService {
-    private List<Student> students = new ArrayList<>();
+    private StudentDAO studentDAO;
     private List<Company> companies = new ArrayList<>();
     private List<Job> jobs = new ArrayList<>();
     private List<Application> applications = new ArrayList<>();
 
+//    Constructor for the sudentdao
+    public PlacementService(StudentDAO studentDAO) {
+        this.studentDAO = studentDAO;
+    }
 //    Adding the objects as a data type of arraylist
     public void addStudent(Student student){
-        students.add(student);
+        studentDAO.save(student);
+    }
+
+    public Student findStudentByRegisterNumber(String regNo) {
+        return studentDAO.findByRegisterNumber(regNo);
+    }
+
+    public List<Student> getAllStudents() {
+        return studentDAO.findAll();
     }
     public void addCompany(Company company) {
         companies.add(company);
@@ -27,24 +40,6 @@ public class PlacementService {
 
     public void addApplication(Application application) {
         applications.add(application);
-    }
-
-
-
-//    Adding the getters for the objects from the arrayList
-
-    public List<Student> getAllStudents(){
-        return students;
-    }
-
-
-    public Student findStudentByRegisterNumber(String RegNo){
-        for(Student stud : students){
-            if(stud.getRegisterNumber().equals(RegNo)){
-                return stud;
-            }
-        }
-        return null;
     }
 
     public List<Company> getAllCompanies() {
