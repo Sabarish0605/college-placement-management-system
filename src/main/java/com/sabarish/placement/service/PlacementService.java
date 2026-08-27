@@ -1,5 +1,6 @@
 package com.sabarish.placement.service;
 
+import com.sabarish.placement.dao.ApplicationDAO;
 import com.sabarish.placement.dao.CompanyDAO;
 import com.sabarish.placement.dao.JobDAO;
 import com.sabarish.placement.dao.StudentDAO;
@@ -18,17 +19,20 @@ public class PlacementService {
     private StudentDAO studentDAO;
     private CompanyDAO companyDAO;
     private JobDAO jobDAO;
+    private ApplicationDAO applicationDAO;
 
-    private List<Application> applications = new ArrayList<>();
 
     public PlacementService(StudentDAO studentDAO,
                             CompanyDAO companyDAO,
-                            JobDAO jobDAO) {
+                            JobDAO jobDAO,
+                            ApplicationDAO applicationDAO) {
 
         this.studentDAO = studentDAO;
         this.companyDAO = companyDAO;
         this.jobDAO = jobDAO;
+        this.applicationDAO = applicationDAO;
     }
+
 
     // ==================== STUDENT ====================
 
@@ -44,6 +48,7 @@ public class PlacementService {
         return studentDAO.findAll();
     }
 
+
     // ==================== COMPANY ====================
 
     public void addCompany(Company company) {
@@ -57,6 +62,7 @@ public class PlacementService {
     public List<Company> getAllCompanies() {
         return companyDAO.findAll();
     }
+
 
     // ==================== JOB ====================
 
@@ -72,36 +78,43 @@ public class PlacementService {
         return jobDAO.findAll();
     }
 
+
     // ==================== APPLICATION ====================
 
     public void addApplication(Application application) {
-        applications.add(application);
+        applicationDAO.save(application);
+    }
+
+    public Application findApplicationById(String applicationId) {
+        return applicationDAO.findByApplicationId(applicationId);
     }
 
     public List<Application> getAllApplications() {
-        return applications;
+        return applicationDAO.findAll();
     }
+
 
     // ==================== PLACEMENT LOGIC ====================
 
     public boolean isEligible(Student student, Job job) {
 
-        if (student.getCgpa() < job.getMinimumCgpa()
-                || student.getBacklogs() > job.getMaximumBacklogs()) {
-
-            return false;
-        }
-
-        return true;
+        return student.getCgpa() >= job.getMinimumCgpa()
+                && student.getBacklogs() <= job.getMaximumBacklogs();
     }
+
 
     public boolean hasAlreadyApplied(Student student, Job job) {
 
+        List<Application> applications =
+                applicationDAO.findByStudentRegisterNumber(
+                        student.getRegisterNumber()
+                );
+
         for (Application application : applications) {
 
-            if (application.getJob().getJobId().equals(job.getJobId())
-                    && application.getStudent().getRegisterNumber()
-                    .equals(student.getRegisterNumber())) {
+            if (application.getJob()
+                    .getJobId()
+                    .equals(job.getJobId())) {
 
                 return true;
             }
@@ -109,6 +122,7 @@ public class PlacementService {
 
         return false;
     }
+
 
     public void applyForJob(Student student, Job job)
             throws AllreadyAppliedException, NotEligibleException {
@@ -120,6 +134,7 @@ public class PlacementService {
             );
         }
 
+
         if (!isEligible(student, job)) {
 
             throw new NotEligibleException(
@@ -127,21 +142,28 @@ public class PlacementService {
             );
         }
 
-        int n = applications.size();
 
-        String uniqueId = "APP" + String.format("%03d", n + 1);
+        int count = applicationDAO.findAll().size();
+
+        String applicationId =
+                "APP" + String.format("%03d", count + 1);
+
 
         Application application = new Application(
-                uniqueId,
+                applicationId,
                 student,
                 job,
                 "Applied"
         );
 
-        applications.add(application);
+
+        applicationDAO.save(application);
 
         System.out.println("Successfully applied");
     }
+
+
+    // ==================== ELIGIBLE JOBS ====================
 
     public List<Job> getEligibleJobs(Student student) {
 
@@ -157,20 +179,13 @@ public class PlacementService {
         return eligibleJobs;
     }
 
+
+    // ==================== STUDENT APPLICATIONS ====================
+
     public List<Application> getApplicationsByStudent(Student student) {
 
-        List<Application> appliedApplications = new ArrayList<>();
-
-        for (Application application : applications) {
-
-            if (application.getStudent()
-                    .getRegisterNumber()
-                    .equals(student.getRegisterNumber())) {
-
-                appliedApplications.add(application);
-            }
-        }
-
-        return appliedApplications;
+        return applicationDAO.findByStudentRegisterNumber(
+                student.getRegisterNumber()
+        );
     }
 }

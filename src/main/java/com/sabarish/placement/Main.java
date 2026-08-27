@@ -12,6 +12,8 @@ import com.sabarish.placement.model.Company;
 import com.sabarish.placement.model.Job;
 import com.sabarish.placement.model.Student;
 import com.sabarish.placement.service.PlacementService;
+import com.sabarish.placement.dao.ApplicationDAO;
+import com.sabarish.placement.dao.ApplicationDAOImpl;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -97,9 +99,15 @@ public class Main {
         StudentDAO studentDAO = new StudentDAOImpl();
         CompanyDAO companyDAO = new CompanyDAOImpl();
         JobDAO jobDAO = new JobDAOImpl();
+        ApplicationDAO applicationDAO = new ApplicationDAOImpl();
 
         PlacementService service =
-                new PlacementService(studentDAO, companyDAO, jobDAO);
+                new PlacementService(
+                        studentDAO,
+                        companyDAO,
+                        jobDAO,
+                        applicationDAO
+                );
 
         // ==================== ADD DATA ====================
 
