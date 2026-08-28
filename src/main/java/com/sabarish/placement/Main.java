@@ -171,10 +171,30 @@ public class Main {
             System.out.println(e.getMessage());
         }
 
+        try {
+            service.applyForJob(std1, job);
+        } catch (AllreadyAppliedException e) {
+            System.out.println(e.getMessage());
+        } catch (NotEligibleException e) {
+            System.out.println(e.getMessage());
+        }
+        try {
+            service.applyForJob(std1, job2);
+        } catch (AllreadyAppliedException e) {
+            System.out.println(e.getMessage());
+        } catch (NotEligibleException e) {
+            System.out.println(e.getMessage());
+        }
+
         // ==================== VIEW APPLICATIONS ====================
 
         System.out.println("All Applications:");
         System.out.println(service.getAllApplications());
+
+        // ==================== FIND APPLICATION ====================
+
+        System.out.println("Found Application:");
+        System.out.println(service.findApplicationById("APP001"));
 
         // ==================== ELIGIBLE JOBS ====================
 
