@@ -1,5 +1,7 @@
 package com.sabarish.placement_management_system;
 
+import com.sabarish.placement_management_system.service.StudentService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -7,7 +9,8 @@ import com.sabarish.placement_management_system.Models.Students;
 
 @RestController
 public class PlacementController {
-
+    @Autowired
+    private  StudentService studentService;
 
     @GetMapping("/hello")
     ResponseEntity<String> getHello(){
@@ -16,13 +19,12 @@ public class PlacementController {
     }
     @GetMapping("/students")
     ResponseEntity<String> getStudents(){
-        String str = "return all students";
-        return new ResponseEntity<>(str,HttpStatus.OK);
+//        String str = "return all students";
+        return new ResponseEntity<>(studentService.getStudents(),HttpStatus.OK);
     }
     @GetMapping("/student/{registerNumber}")
     ResponseEntity<String> getStudentByRegNo(@PathVariable String registerNumber){
-        String str = "student by regNo:" + registerNumber;
-        return new ResponseEntity<>(str,HttpStatus.OK);
+        return new ResponseEntity<>(studentService.getStudentByRegNo(registerNumber),HttpStatus.OK);
     }
     @GetMapping(value = "/students",params = "dept")
     ResponseEntity<String> getStudentByDept(@RequestParam String dept){
