@@ -18,39 +18,58 @@ public class PlacementController {
         return new ResponseEntity<>(str, HttpStatus.OK);
     }
     @GetMapping("/students")
-    ResponseEntity<String> getStudents(){
-//        String str = "return all students";
-        return new ResponseEntity<>(studentService.getStudents(),HttpStatus.OK);
-    }
-    @GetMapping("/student/{registerNumber}")
-    ResponseEntity<String> getStudentByRegNo(@PathVariable String registerNumber){
-        return new ResponseEntity<>(studentService.getStudentByRegNo(registerNumber),HttpStatus.OK);
-    }
-    @GetMapping(value = "/students",params = "dept")
-    ResponseEntity<String> getStudentByDept(@RequestParam String dept){
-        String str = "Student of "+dept;
-        return new ResponseEntity<>(str,HttpStatus.OK);
+    ResponseEntity<String> getStudents() {
+        String result = studentService.getStudents();
+        return new ResponseEntity<>(result, HttpStatus.OK);
     }
 
+    @GetMapping("/student/{registerNumber}")
+    ResponseEntity<String> getStudentByRegNo(
+            @PathVariable String registerNumber) {
+
+        String result =
+                studentService.getStudentByRegNo(registerNumber);
+
+        return new ResponseEntity<>(result, HttpStatus.OK);
+    }
+
+    @GetMapping(value = "/students", params = "department")
+    ResponseEntity<String> getStudentsByDepartment(
+            @RequestParam String department) {
+
+        String result =
+                studentService.getStudentsByDepartment(department);
+
+        return new ResponseEntity<>(result, HttpStatus.OK);
+    }
 
     @PostMapping("/students")
-    ResponseEntity<Students> createStudent(@RequestBody Students students){
-        return new ResponseEntity<>(students,HttpStatus.OK);
+    ResponseEntity<Students> createStudent(
+            @RequestBody Students student) {
+
+        Students result = studentService.createStudent(student);
+
+        return new ResponseEntity<>(result, HttpStatus.OK);
     }
 
     @PutMapping("/students/{registerNumber}")
-    ResponseEntity<Students> updateStudent(@RequestBody Students students, @PathVariable String registerNumber){
+    ResponseEntity<Students> updateStudent(
+            @PathVariable String registerNumber,
+            @RequestBody Students student) {
 
-        return new ResponseEntity<>(students,HttpStatus.OK);
+        Students result =
+                studentService.updateStudent(registerNumber, student);
+
+        return new ResponseEntity<>(result, HttpStatus.OK);
     }
 
     @DeleteMapping("/students/{registerNumber}")
-    ResponseEntity<String> deleteStudent(@PathVariable String registerNumber){
-        String str = "The student with "+registerNumber+" is deleted";
-        return new ResponseEntity<>(str,HttpStatus.OK);
+    ResponseEntity<String> deleteStudent(
+            @PathVariable String registerNumber) {
+
+        String result =
+                studentService.deleteStudent(registerNumber);
+
+        return new ResponseEntity<>(result, HttpStatus.OK);
     }
-
-
-
-
 }
