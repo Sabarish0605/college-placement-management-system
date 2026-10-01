@@ -1,14 +1,16 @@
-package com.sabarish.placement_management_system;
+package com.sabarish.placement_management_system.Controller;
 
 import com.sabarish.placement_management_system.service.StudentService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import com.sabarish.placement_management_system.Models.Students;
+import com.sabarish.placement_management_system.Models.Student;
+
+import java.util.List;
 
 @RestController
-public class PlacementController {
+public class StudentController {
     @Autowired
     private  StudentService studentService;
 
@@ -18,19 +20,21 @@ public class PlacementController {
         return new ResponseEntity<>(str, HttpStatus.OK);
     }
     @GetMapping("/students")
-    ResponseEntity<String> getStudents() {
-        String result = studentService.getStudents();
-        return new ResponseEntity<>(result, HttpStatus.OK);
+    ResponseEntity<List<Student>> getStudents() {
+        return new ResponseEntity<>(studentService.getStudents(), HttpStatus.OK);
     }
 
     @GetMapping("/student/{registerNumber}")
-    ResponseEntity<String> getStudentByRegNo(
+    ResponseEntity<Student> getStudentByRegNo(
             @PathVariable String registerNumber) {
 
-        String result =
-                studentService.getStudentByRegNo(registerNumber);
+        Student student = studentService.getStudentByRegNo(registerNumber);
 
-        return new ResponseEntity<>(result, HttpStatus.OK);
+        if (student == null) {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+
+        return new ResponseEntity<>(student, HttpStatus.OK);
     }
 
     @GetMapping(value = "/students", params = "department")
@@ -44,32 +48,23 @@ public class PlacementController {
     }
 
     @PostMapping("/students")
-    ResponseEntity<Students> createStudent(
-            @RequestBody Students student) {
+    ResponseEntity<Student> createStudent(
+            @RequestBody Student student) {
 
-        Students result = studentService.createStudent(student);
+        Student result = studentService.createStudent(student);
 
         return new ResponseEntity<>(result, HttpStatus.OK);
     }
 
     @PutMapping("/students/{registerNumber}")
-    ResponseEntity<Students> updateStudent(
-            @PathVariable String registerNumber,
-            @RequestBody Students student) {
-
-        Students result =
-                studentService.updateStudent(registerNumber, student);
-
-        return new ResponseEntity<>(result, HttpStatus.OK);
+    ResponseEntity<Student> updateStudent(@RequestBody Student student) {
+        return new ResponseEntity<>(studentService.updateStudent(student), HttpStatus.OK);
     }
 
     @DeleteMapping("/students/{registerNumber}")
-    ResponseEntity<String> deleteStudent(
-            @PathVariable String registerNumber) {
+    ResponseEntity<String> deleteStudent(@PathVariable String registerNumber) {
 
-        String result =
-                studentService.deleteStudent(registerNumber);
-
-        return new ResponseEntity<>(result, HttpStatus.OK);
+        studentService.deleteStudent(registerNumber);
+        return new ResponseEntity<>("Student successfully deleted", HttpStatus.OK);
     }
 }
