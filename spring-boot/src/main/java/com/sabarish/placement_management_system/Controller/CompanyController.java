@@ -1,4 +1,4 @@
-package com.sabarish.placement_management_system;
+package com.sabarish.placement_management_system.Controller;
 
 import com.sabarish.placement_management_system.Models.Company;
 import com.sabarish.placement_management_system.service.CompanyService;

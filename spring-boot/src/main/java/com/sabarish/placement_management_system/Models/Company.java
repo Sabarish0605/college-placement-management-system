@@ -1,10 +1,12 @@
 package com.sabarish.placement_management_system.Models;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 import lombok.Data;
 
+import java.util.List;
+
 @Entity
+@Table(name = "company")
 @Data
 public class Company {
 
@@ -15,4 +17,7 @@ public class Company {
     private String email;
     private String industry;
     private String location;
+
+    @OneToMany(mappedBy = "company")
+    private List<Job> jobs;
 }
