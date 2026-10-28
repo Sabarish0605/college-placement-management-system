@@ -31,12 +31,11 @@ public class ApplicationService {
             String studentRegisterNumber) {
 
         return applicationRepository
-                .findByStudentRegisterNumber(studentRegisterNumber);
+                .findByStudent_RegisterNumber(studentRegisterNumber);
     }
-
     public List<Application> getApplicationsByJob(String jobId) {
 
-        return applicationRepository.findByJobId(jobId);
+        return applicationRepository.findByJob_JobId(jobId);
     }
 
     public Application updateApplication(

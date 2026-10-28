@@ -1,5 +1,4 @@
 package com.sabarish.placement_management_system;
-
 import com.sabarish.placement_management_system.Models.Job;
 import com.sabarish.placement_management_system.service.JobService;
 import org.springframework.beans.factory.annotation.Autowired;

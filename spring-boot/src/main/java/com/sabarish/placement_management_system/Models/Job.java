@@ -3,6 +3,8 @@ package com.sabarish.placement_management_system.Models;
 import jakarta.persistence.*;
 import lombok.Data;
 
+import java.util.List;
+
 @Entity
 @Table(name = "job")
 @Data
@@ -22,4 +24,7 @@ public class Job {
     @ManyToOne
     @JoinColumn(name = "company_id")
     private Company company;
+
+    @OneToMany(mappedBy = "job")
+    private List<Application> applications;
 }

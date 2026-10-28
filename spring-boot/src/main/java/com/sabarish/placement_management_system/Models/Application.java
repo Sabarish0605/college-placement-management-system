@@ -1,8 +1,6 @@
 package com.sabarish.placement_management_system.Models;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 import lombok.Data;
 
 @Entity
@@ -13,7 +11,13 @@ public class Application {
     @Id
     private String applicationId;
 
-    private String studentRegisterNumber;
-    private String jobId;
     private String status;
+
+    @ManyToOne
+    @JoinColumn(name = "student_register_number")
+    private Student student;
+
+    @ManyToOne
+    @JoinColumn(name = "job_id")
+    private Job job;
 }
