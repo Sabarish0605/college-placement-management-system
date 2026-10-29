@@ -101,4 +101,9 @@ public class ApplicationController {
                 HttpStatus.OK
         );
     }
+
+    @RequestMapping("/home")
+    public String greet(){
+        return "Hello World!";
+    }
 }
